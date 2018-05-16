@@ -36,12 +36,14 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <xacro:arg name="robot_namespace" default="robot_id" />
   <xacro:arg name="urdf_extras" default="empty.urdf" />
 
-  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />                          <!-- Added new -->
+
 
 
 <!-- Added new -->
  <!-- Enable UR5 -->
     <xacro:if value="$(arg ur5_enabled)">
+
+        <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />                          <!-- Added new -->
 
       <xacro:property name="reflect" value="-1" />
 
@@ -67,9 +69,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <xacro:include filename="$(find husky_description)/urdf/wheel.urdf.xacro" />
 
   <xacro:include filename="$(find husky_description)/urdf/accessories/kinect_camera.urdf.xacro"/>
-  <xacro:include filename="$(find husky_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
   <xacro:include filename="$(find husky_description)/urdf/accessories/sensor_arch.urdf.xacro"/>
- 
+
 
   <xacro:property name="M_PI" value="3.14159"/>
 
@@ -161,6 +162,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <xacro:husky_decorate />
 
   <xacro:if value="$(arg laser_enabled)">
+
+    <xacro:include filename="$(find husky_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
 
     <sick_lms1xx_mount prefix="base"/>
 

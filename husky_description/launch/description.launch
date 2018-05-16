@@ -25,23 +25,24 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 -->
 <launch>
 
-  <arg name="robot_namespace" default="/"/>
-  <arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)"/>
-  <arg name="kinect_enabled" default="$(optenv HUSKY_KINECT_ENABLED false)"/>
-  <arg name="urdf_extras" default="$(optenv HUSKY_URDF_EXTRAS)"/>
-  <arg name="ur5_enabled" default="false"/>  <!-- Added new -->
+    <!-- Arguments  -->
+    <arg name="robot_namespace" default="/"/>
+    <arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)"/>
+    <arg name="kinect_enabled" default="$(optenv HUSKY_KINECT_ENABLED false)"/>
+    <arg name="urdf_extras" default="$(optenv HUSKY_URDF_EXTRAS)"/>
+    <arg name="ur5_enabled" default="false"/>  <!-- Added new -->
 
-
-<!-- New Edit -->
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find husky_description)/urdf/husky.urdf.xacro'
+    <!-- New Edit -->
+    <!-- Calls Husky xacro -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find husky_description)/urdf/husky.urdf.xacro'
     --inorder
     robot_namespace:=$(arg robot_namespace)
     laser_enabled:=$(arg laser_enabled)
     kinect_enabled:=$(arg kinect_enabled)
-    ur5_enabled:=$(arg ur5_enabled)       
+    ur5_enabled:=$(arg ur5_enabled)
     urdf_extras:=$(arg urdf_extras)
     " />
-<!-- New Edit -->
-<!-- Added new line "ur5_enabled:=$(arg ur5_enabled)" and inorder tag -->
+    <!-- New Edit -->
+    <!-- Added new line "ur5_enabled:=$(arg ur5_enabled)" and inorder tag -->
 
 </launch>
