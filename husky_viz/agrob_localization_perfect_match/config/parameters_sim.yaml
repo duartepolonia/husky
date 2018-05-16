@@ -1,0 +1,8 @@
+{BaseFrameId: base_footprint, DeltaUpdateInitOrientation: 0.1, DeltaUpdateInitPosition: 0.1,
+  DriftRotationDeltaRot: 0.001, DriftTranslationDeltaD: 0.001, DriftTranslationDeltaRot: 0.0003,
+  GlobalFrameId: map, LaserFilterMaxDist1: 0.5, LaserFilterMaxDist2: 0.05, LaserMeasuresNum: 270,
+  Lc: 1.0, MaxErrordistFilterEnabled1: true, MaxErrordistFilterEnabled2: true, MinPercentValideSensorData: 0.0,
+  NumIterationMax: 50, OdomFrameId: odom, OperationMode: SensorsOdomFusion, OptimizationStopRotation: 0.0,
+  OptimizationStopTranslation: 0.0, SaveLocalizationStatePeriod: 1, ScanFrameId: base_laser_link,
+  SensorsKErrorTheta: 0.001, SensorsKErrorXY: 1.0, StateMinVarTheta: 0.001, StateMinVarXY: 0.01,
+  WeightenMeasureDistEnable: true, invert_tf: false, write_pose_result_to_tf: true}

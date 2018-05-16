@@ -1,33 +1,10 @@
-<?xml version="1.0"?>
-<!--
-Software License Agreement (BSD)
-
-\file      gazebo_description.launch
-\authors   Paul Bovbel <pbovbel@clearpathrobotics.com
-\copyright Copyright (c) 2015, Clearpath Robotics, Inc., All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that
-the following conditions are met:
- * Redistributions of source code must retain the above copyright notice, this list of conditions and the
-   following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
-   following disclaimer in the documentation and/or other materials provided with the distribution.
- * Neither the name of Clearpath Robotics nor the names of its contributors may be used to endorse or promote
-   products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WAR-
-RANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, IN-
-DIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
-OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
--->
 <launch>
 
   <arg name="multimaster" default="false"/>
-
-  <arg name="robot_namespace" default="/"/>
+  <arg name="simulation" default="false"/>   <!-- Added new -->
+  <arg name="ur5_enabled" default="false"/>  <!-- Added new -->
+  <arg name="robot_id" default="/"/>
+  <arg name="robot_namespace" value="$(arg robot_id)"/>
 
   <arg name="x" default="0.0"/>
   <arg name="y" default="0.0"/>
@@ -36,6 +13,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)"/>
   <arg name="kinect_enabled" default="$(optenv HUSKY_UR5_ENABLED false)"/>
   <arg name="urdf_extras" default="$(optenv HUSKY_URDF_EXTRAS)"/>
+  <arg name="ur5_control_yaml_file" default="$(find husky_control)/config/control_ur5.yaml"/>  <!-- Added new: copied from universal_robot/ur_gazebo_controller/ ... -->
+
 
   <group ns="$(arg robot_namespace)">
 
@@ -57,15 +36,45 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     </group>
 
     <!-- For single master bringup, run robot control on the gazebo master -->
+
+<!-- -->
     <!-- Note that husky_description/description.launch is already included in husky_control/control.launch. -->
+<!-- -->
+
     <group unless="$(arg multimaster)">
       <include file="$(find husky_control)/launch/control.launch">
+        <arg name="simulation" default="$(arg simulation)"/>           <!-- Added new -->
         <arg name="multimaster" value="$(arg multimaster)"/>
         <arg name="laser_enabled" value="$(arg laser_enabled)"/>
         <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
         <arg name="urdf_extras" value="$(arg urdf_extras)"/>
+        <arg name="ur5_enabled" value="$(arg ur5_enabled)"/>  <!-- Added new -->
       </include>
     </group>
+
+
+
+
+ <!-- Added new -->
+  <!-- Include ros_control configuration for ur5, only used in simulation -->
+  <group if="$(arg ur5_enabled)">
+
+    <!-- Load UR5 controllers -->
+    <rosparam command="load" file="$(arg ur5_control_yaml_file)" />
+    <node name="arm_controller_spawner" pkg="controller_manager" type="spawner" args="arm_controller"/>
+
+    <!-- Fake Calibration -->
+    <node pkg="rostopic" type="rostopic" name="fake_joint_calibration" args="pub calibrated std_msgs/Bool true" />
+
+    <!-- Stow the arm -->
+    <node pkg="husky_control" type="stow_ur5" name="stow_ur5"/>
+
+  </group>
+ <!-- Added new -->
+
+
+
+
 
     <group if="$(arg kinect_enabled)">
 

@@ -1,0 +1,6 @@
+<launch>
+  <node name="localization_perfect_match" pkg="localization_perfect_match" type="localization_perfect_match_No_Gui" respawn="false" output="screen">
+    <remap from="localization_perfect_match/base_scan" to="/scan" />
+    <rosparam command="load" file="$(find agrob_localization_perfect_match)config/parameters.yaml"/>
+  </node>
+</launch>

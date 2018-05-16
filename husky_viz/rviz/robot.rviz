@@ -128,6 +128,9 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+      Name: Map
+      Robot Description: robot_description
+      Topic: /map
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""

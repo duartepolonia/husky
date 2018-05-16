@@ -4,16 +4,28 @@
   <arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)"/>
   <arg name="kinect_enabled" default="false"/>
 
-  <!-- Standalone launcher to visualize the robot model. -->
+
+<!--Here launches/loads the map for the robot to navigate-->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find husky_viz)/config/map_test.yaml">
+    <param name="frame_id" value="ground_truth" />
+  </node>
+<!-- -->
+
+  <!-- Standalone launcher to visualize the robot model.
   <include file="$(find husky_description)/launch/description.launch">
     <arg name="laser_enabled" value="$(arg laser_enabled)"/>
     <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
   </include>
-
+ -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="true" />
   </node>
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find husky_viz)/rviz/model.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find husky_viz)/rviz/model.rviz" >
+  <remap from="/twist_marker_server/feedback" to="husky/twist_marker_server/feedback"/>
+  <remap from="/twist_marker_server/update" to="husky/twist_marker_server/update"/>
+  </node>
+
+
 
 </launch>

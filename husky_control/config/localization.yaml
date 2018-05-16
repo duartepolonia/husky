@@ -1,12 +1,12 @@
-odom_frame: odom
+odom_frame: ground_truth
 base_link_frame: base_link
-world_frame: odom
+world_frame: ground_truth
 
 two_d_mode: true
 
 frequency: 50
 
-odom0: husky_velocity_controller/odom
+odom0: husky_velocity_controller/ground_truth
 odom0_config: [false, false, false,
                false, false, false,
                true, true, true,
