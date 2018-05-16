@@ -32,20 +32,27 @@
     <node pkg="husky_ur5_send_gazebo_pos" type="get_send_gazebo_pos" name="get_send_gazebo_pos"/>
 
     <!-- TODO: Check what this does.... -->
+    <!-- Publish command velocity messages arising from markers usage - can be eventually replaced if other type of localization is used
+
     <node pkg="interactive_marker_twist_server" type="marker_server" name="twist_marker_server" output="screen">
-        <remap from="/twist_marker_server/feedback" to="$(arg robot_namespace)/twist_marker_server/feedback"/>
-        <remap from="/twist_marker_server/update" to="$(arg robot_namespace)/twist_marker_server/update"/>
-        <remap from="/twist_marker_server/cmd_vel" to="$(arg robot_namespace)/twist_marker_server/cmd_vel"/>
+        <!--remap from="/twist_marker_server/feedback" to="$(arg robot_namespace)/twist_marker_server/feedback"/-->
+        <!--remap from="/twist_marker_server/update" to="$(arg robot_namespace)/twist_marker_server/update"/-->
+        <!--remap from="/twist_marker_server/cmd_vel" to="$(arg robot_namespace)/twist_marker_server/cmd_vel"/-->
+        <remap from="/twist_marker_server/cmd_vel" to="husky_velocity_controller/cmd_vel"/>
     </node>
 
     <!-- TODO: Check what this does... -->
+    <!--This package publishes the state of the robot to tf -->
+
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
     <!-- TODO: Check what this does... -->
-    <node pkg="twist_mux" type="twist_mux" name="$(arg robot_namespace)_twist_mux" >
+    <!-- Not needed for now - It should be used only if there are more than a single source to move the robot (with a geometry_msgs::Twist message)  -->
+
+    <!--node pkg="twist_mux" type="twist_mux" name="$(arg robot_namespace)_twist_mux" >
         <rosparam command="load" file="$(find husky_control)/config/twist_mux.yaml" />
         <remap from="cmd_vel_out" to="husky_velocity_controller/cmd_vel"/>
-    </node>
+    </node-->
 
     <!-- Override the default control parameters, see config/empty.yaml for default. -->
     <rosparam command="load" file="$(arg config_extras)" />
