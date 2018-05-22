@@ -4,7 +4,8 @@
     <arg name="simulation" default="false"/>   <!-- Added new -->
     <arg name="ur5_enabled" default="false"/>  <!-- Added new -->
     <arg name="robot_id" default="/"/>
-    <arg name="robot_namespace" value="$(arg robot_id)"/>
+    <!-- <arg name="robot_namespace" value="$(arg robot_id)"/> -->
+    <arg name="robot_namespace" value="husky"/>
     <arg name="multimaster" default="false"/>
     <arg name="x" default="0.0"/>
     <arg name="y" default="0.0"/>
@@ -85,6 +86,7 @@
               -unpause
               -urdf
               -param robot_description
-              -model $(arg robot_namespace)"/>
-
+              -model $(arg robot_namespace)">
+    <!-- <remap from="/gazebo" to="$(arg robot_namespace)/gazebo"/> -->
+    </node>
 </launch>

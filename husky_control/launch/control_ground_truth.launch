@@ -4,7 +4,7 @@
     <!-- Arguments -->
     <arg name="multimaster" default="$(optenv ROBOT_MULTIMASTER false)"/>
     <arg name="simulation" default="false"/>
-    <arg name="robot_id" default="/"/>  <!-- Added new -->
+    <arg name="robot_id" default="husky"/>  <!-- Added new -->
     <arg name="robot_namespace" value="$(arg robot_id)" />
     <arg name="ur5_enabled" default="false"/>  <!-- Added new -->
 
@@ -34,17 +34,20 @@
     <!-- TODO: Check what this does.... -->
     <!-- Publish command velocity messages arising from markers usage - can be eventually replaced if other type of localization is used
 
-    <node pkg="interactive_marker_twist_server" type="marker_server" name="twist_marker_server" output="screen">
+    <node pkg="interactive_marker_twist_server" type="marker_server" name="twist_marker_server" output="screen"-->
         <!--remap from="/twist_marker_server/feedback" to="$(arg robot_namespace)/twist_marker_server/feedback"/-->
         <!--remap from="/twist_marker_server/update" to="$(arg robot_namespace)/twist_marker_server/update"/-->
         <!--remap from="/twist_marker_server/cmd_vel" to="$(arg robot_namespace)/twist_marker_server/cmd_vel"/-->
-        <remap from="/twist_marker_server/cmd_vel" to="husky_velocity_controller/cmd_vel"/>
-    </node>
+        <!--remap from="/twist_marker_server/cmd_vel" to="husky_velocity_controller/cmd_vel"/-->
+    <!--/node-->
 
     <!-- TODO: Check what this does... -->
     <!--This package publishes the state of the robot to tf -->
 
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <!-- <remap from="/joint_states" to="$(arg robot_namespace)/joint_states"/> -->
+  </node>
+
 
     <!-- TODO: Check what this does... -->
     <!-- Not needed for now - It should be used only if there are more than a single source to move the robot (with a geometry_msgs::Twist message)  -->
